@@ -5,8 +5,8 @@ var iconv = require('iconv-lite');
 var coRequest = require('co-request');
 
 module.exports = function(options) {
-  options || (options = {});
-  var request = coRequest.defaults({ jar: typeof options.jar === 'undefined' ? true : options.jar });
+  options || (options = {jar: true});
+  var request = coRequest.defaults(options);
 
   if (!(options.host || options.map || options.url)) {
     throw new Error('miss options');
