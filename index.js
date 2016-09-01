@@ -37,23 +37,17 @@ module.exports = function(options) {
 
         var body = this.request.body;
 
-        console.log(body)
         if (body) {
-            
             var contentType = this.request.header['content-type'];
             if (contentType) {
                 if (!Buffer.isBuffer(body) && typeof body !== 'string') { // body是对象
                     if (contentType.indexOf('json') !== -1) {
-                        console.log('body is json')
                         opt.body = JSON.stringify(body);
                     } else if (contentType.indexOf('x-www-form-urlencoded') !== -1) {
-                        console.log('body is from urlencoded')
                         opt.form = body;
                     } else if (contentType.indexOf('form-data') !== -1) {
-                        console.log('body is from data')
                         opt.formData = body;
                     } else {
-                        console.log('body is others')
                         opt.body = body + '';
                     }
                 }
@@ -135,23 +129,23 @@ function ignoreQuery(url) {
     return url ? url.split('?')[0] : null;
 }
 
-function getParsedBody(ctx) {
-    var body = ctx.request.body;
+// function getParsedBody(ctx) {
+//     var body = ctx.request.body;
 
-    if (body === undefined || body === null) {
-        return undefined;
-    }
-    var contentType = ctx.request.header['content-type'];
-    if (!Buffer.isBuffer(body) && typeof body !== 'string') {
-        if (contentType && contentType.indexOf('json') !== -1) {
-            body = JSON.stringify(body);
-        } else {
-            body = body.toString();
-        }
-    }
+//     if (body === undefined || body === null) {
+//         return undefined;
+//     }
+//     var contentType = ctx.request.header['content-type'];
+//     if (!Buffer.isBuffer(body) && typeof body !== 'string') {
+//         if (contentType && contentType.indexOf('json') !== -1) {
+//             body = JSON.stringify(body);
+//         } else {
+//             body = body.toString();
+//         }
+//     }
 
-    return body;
-}
+//     return body;
+// }
 
 function pipeRequest(readable, requestThunk) {
     return function(cb) {
