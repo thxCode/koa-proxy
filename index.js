@@ -6,6 +6,13 @@ var coRequest = require('co-request');
 
 module.exports = function(options) {
     options || (options = { jar: true });
+  
+    var responseCallback = null;
+    if (options.callback) {
+        responseCallback = options.callback;
+        delete options.callback;
+    }
+  
     var request = coRequest.defaults(options);
 
     if (!(options.host || options.map || options.url)) {
@@ -101,6 +108,10 @@ module.exports = function(options) {
         }
 
         this.body = res.body;
+      
+        if (responseCallback) {
+            responseCallback.call(options, this);
+        }
     };
 };
 
